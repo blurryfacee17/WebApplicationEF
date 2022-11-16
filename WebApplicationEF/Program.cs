@@ -40,13 +40,13 @@ app.MapPost("/addProduct",
     });
 
 app.MapGet("/getProduct",
-    async (AppDbContext context, [FromQuery] int id) =>
+    async (AppDbContext context, [FromQuery] long id) =>
     {
         var product = await context.Products.FirstAsync(p => p.Id == id);
         return product;
     });
 
-app.MapPost("/updateProduct", async (AppDbContext context, [FromQuery] int id, [FromBody] Product updatedProduct) =>
+app.MapPost("/updateProduct", async (AppDbContext context, [FromQuery] long id, [FromBody] Product updatedProduct) =>
 {
     var product = await context.Products.FirstAsync(p => p.Id == id);
     product.Name = updatedProduct.Name;
@@ -56,7 +56,7 @@ app.MapPost("/updateProduct", async (AppDbContext context, [FromQuery] int id, [
     await context.SaveChangesAsync();
 });
 
-app.MapPost("/deleteProduct", async (AppDbContext context, [FromQuery] int id) =>
+app.MapPost("/deleteProduct", async (AppDbContext context, [FromQuery] long id) =>
 {
     context.Remove(await context.Products.FirstAsync(p => p.Id == id));
     await context.SaveChangesAsync();
