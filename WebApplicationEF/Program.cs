@@ -48,7 +48,7 @@ app.MapGet("/getProduct",
 
 app.MapPost("/updateProduct", async (AppDbContext context, [FromQuery] int id, [FromBody] Product updatedProduct) =>
 {
-    var product = context.Products.First(p => p.Id == id);
+    var product = await context.Products.FirstAsync(p => p.Id == id);
     product.Name = updatedProduct.Name;
     product.Price = updatedProduct.Price;
     product.Amount = updatedProduct.Amount;
@@ -58,7 +58,7 @@ app.MapPost("/updateProduct", async (AppDbContext context, [FromQuery] int id, [
 
 app.MapPost("/deleteProduct", async (AppDbContext context, [FromQuery] int id) =>
 {
-    context.Remove(context.Products.First(p => p.Id == id));
+    context.Remove(await context.Products.FirstAsync(p => p.Id == id));
     await context.SaveChangesAsync();
 });
 
